@@ -6,55 +6,60 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { NavItem } from 'react-bootstrap';
 
 class Login extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      name:'',
-      email:'',
-      phone:'',
-      password:'',
-      error:''
+      name: '',
+      email: '',
+      phone: '',
+      password: '',
+      error: ''
     }
   }
 
-  onChangeName = (e) =>{
-    this.setState({name:e.target.value})
+  onChangeName = (e) => {
+    this.setState({ name: e.target.value })
   }
 
-  onChangeEmail = (e) =>{
-    this.setState({email:e.target.value})
+  onChangeEmail = (e) => {
+    this.setState({ email: e.target.value })
   }
 
-  onChangePhone = (e) =>{
-    this.setState({phone:e.target.value})
+  onChangePhone = (e) => {
+    this.setState({ phone: e.target.value })
   }
 
-  onSubmit = (e) =>{
+  onSubmit = (e) => {
     let { history } = this.props
     let ele;
     e.preventDefault()
     let olddata = localStorage.getItem('formdata')
     let oldArr = JSON.parse(olddata)
-    oldArr.map(arr => 
-      {
-        if(this.state.name.length > 0 && this.state.password.length > 0){
+    if (oldArr != undefined) {
+
+      oldArr.map(arr => {
+        if (this.state.name.length > 0 && this.state.password.length > 0) {
           if (arr.name == this.state.name && (arr.password == this.state.password)) {
             let user = this.state.name;
             history.push({ pathname: "/welcome", user: this.state.name });
-          }else{
-            this.setState({error:'Please check your email or password'})
+          } else {
+            this.setState({ error: 'Please check your email or password' })
           }
         }
       }
       )
+    }
+    else {
+      this.setState({ error: 'Please check your email or password' })
+    }
   }
-  
-  onChangePassword = (e) =>{
-    this.setState({password:e.target.value})
+
+  onChangePassword = (e) => {
+    this.setState({ password: e.target.value })
   }
 
   render() {
-    
+
     return (
       <form onSubmit={this.onSubmit} className="my-5 container">
         <p className="error">
@@ -70,8 +75,8 @@ class Login extends React.Component {
         </div>
         <button type="submit" className="btn btn-primary mr-2" onClick={this.props.onLogin}>Login</button>
         <LinkContainer to="/register" className="btn btn-primary ">
-                <NavItem>Register</NavItem>
-              </LinkContainer>
+          <NavItem>Register</NavItem>
+        </LinkContainer>
       </form>
     )
   }
