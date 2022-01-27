@@ -30,7 +30,9 @@ class Register extends React.Component {
   }
 
   onSubmit = (e) => {
+    
     e.preventDefault();
+    let { history } = this.props
     let ob = {
       name: this.state.name,
       email: this.state.email,
@@ -43,10 +45,7 @@ class Register extends React.Component {
     if (oldArr!=null && oldArr.filter(a => a.name == this.state.name)[0] != undefined) {
       this.setState({ error: "this name already registered" });
 
-
     } else {
-
-
       if (olddata == null) {
         olddata = []
         olddata.push(ob)
@@ -55,9 +54,8 @@ class Register extends React.Component {
         let oldArr = JSON.parse(olddata)
         oldArr.push(ob)
         localStorage.setItem("formdata", JSON.stringify(oldArr))
-        console.log(oldArr, 'hhg')
       }
-      this.props.history.push("/login");
+      history.push({ pathname: "/welcome", user: this.state.name });
 
     }
 
